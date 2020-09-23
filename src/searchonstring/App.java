@@ -19,20 +19,6 @@ class App {
         Scanner scanner = new Scanner(System.in);
         String str = scanner.nextLine();
         System.out.println("--------------------------------");
-        
-        System.out.print("Введите строку: ");
-        String searchStr = scanner.nextLine();
-        System.out.println("--------------------------------");
-        
-        int i = str.indexOf(searchStr);
-        StringBuilder sbStr = new StringBuilder(str);
-        if(i>0){
-            System.out.printf("Искомая строка есть и  начинается на %d позиции%n", i);
-        }else{
-            System.out.println("Искомая строка не найдена.");
-            System.out.println("--- конец программы --- ");
-            System.exit(0);
-        }
         System.out.println("Задачи:");
         System.out.println("0. Выйти из программы");
         System.out.println("1. Удалить искомую строку из исходной строки");
@@ -41,29 +27,29 @@ class App {
         System.out.println("4. Удалить конкретный тег из html документа");
         System.out.println("Выберите задачу");
         String task =  scanner.nextLine();
-        //находим индех вхождения строки.
-        int startIndex = str.indexOf(searchStr);
-        // находим index окончания строки
-        int endIndex = startIndex + searchStr.length();
         switch (task) {
             case "0":
                 System.out.println("Выбрана задача 0");
                 break;
             case "1":
                 System.out.println("Выбрана задача 1. Удалить искомую строку из исходной строки");
-                sbStr.delete(startIndex, endIndex);
+                System.out.println("--------------------------------");
+                System.out.print("Введите удаляемую строку: ");
+                String searchStr = scanner.nextLine();
                 System.out.println("Результат: ");
-                System.out.println(sbStr.toString());
+                System.out.println(deleteString(str, searchStr));
                 break;
             case "2":
                 System.out.println("Выбрана задача 2");
                 System.out.println("--------------------------------");
+                System.out.print("Введите заменяемую строку: ");
+                searchStr = scanner.nextLine();
+                System.out.println("--------------------------------");
                 System.out.print("Введите на что заменить: ");
                 String replaseText = scanner.nextLine();
                 System.out.println("--------------------------------");
-                sbStr.replace(startIndex, endIndex, replaseText);
                 System.out.println("Результат: ");
-                System.out.println(sbStr.toString());
+                System.out.println(replaceText(str,searchStr,replaseText));
                 break;
             case "3":
                 System.out.println("Выбрана задача 3");
@@ -77,6 +63,30 @@ class App {
                 
         }
         System.out.println("--- конец программы ---");
+    }
+    private String deleteString(String str, String delString){
+        //находим индех вхождения строки.
+        int startIndex = str.indexOf(delString);
+        // находим index окончания строки
+        int endIndex = startIndex + delString.length();
+        StringBuilder sbStr = new StringBuilder(str);
+        sbStr.delete(startIndex, endIndex);
+        return sbStr.toString();
+    }
+    private String replaceText(String str,String searchText, String replaceText){
+        //находим индех вхождения строки.
+        int startIndex = str.indexOf(searchText);
+        int endIndex = startIndex + searchText.length();
+        if(startIndex > 0){
+            System.out.printf("Искомая строка есть и  начинается на %d позиции%n", startIndex);
+        }else{
+            System.out.println("Искомая строка не найдена.");
+            System.out.println("--- конец программы --- ");
+            System.exit(0);
+        }
+        StringBuilder sbStr = new StringBuilder(str);
+        sbStr.replace(startIndex, endIndex, replaceText);
+        return sbStr.toString();
     }
     
 }
