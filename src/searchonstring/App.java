@@ -10,8 +10,9 @@ import java.util.Scanner;
 /**
  *
  * @author Comp
- */
+ */ 
 class App {
+    private Scanner scanner = new Scanner(System.in);
     public void run(){
         System.out.println("--- Поиск в строке ---");
         System.out.println("--------------------------------");
@@ -53,14 +54,16 @@ class App {
                 break;
             case "3":
                 System.out.println("Выбрана задача 3");
-                
+                System.out.println("Удалить все теги из html документа");
+//<!DOCTYPE html><html lang="en"><head><title>Document</title></head><body>TEXT</body></html>
+                System.out.println("Результат: " + this.deleteTegsFromHtml(str));
                 break;
             case "4":
                 System.out.println("Выбрана задача 4");
-                
+                System.out.println("Удалить указанный тег из html строки");
+                System.out.println("Результат: " + this.deleteOneTegFromHtml(str));
                 break;
-            
-                
+        
         }
         System.out.println("--- конец программы ---");
     }
@@ -89,4 +92,34 @@ class App {
         return sbStr.toString();
     }
     
+    private String deleteTegsFromHtml(String str) {
+        StringBuilder sb = new StringBuilder(str);
+        while(sb.indexOf("<") >= 0){
+            int indexOpenTag = sb.indexOf("<");
+            int indexCloseTag = sb.indexOf(">");
+            sb.replace(indexOpenTag, indexCloseTag+1, " ");
+        }  
+        return sb.toString();
+    }
+    
+    private String deleteOneTegFromHtml(String str) {
+        System.out.println("Укажите какой тег удалить (без угловых скобок): ");
+        String tag = scanner.nextLine();
+        StringBuilder sb = new StringBuilder(str);
+        String tagBegin = "<"+tag;
+        String tagEnd = "</"+tag;
+        while(sb.indexOf(tagBegin) >= 0){
+            int indexOpenTag = sb.indexOf(tagBegin);
+            int indexOpenTagEnd = sb.indexOf(">",indexOpenTag);
+           // int indexCloseTag = indexOpenTag + indexOpenTagClose+1;
+            sb.replace(indexOpenTag, indexOpenTagEnd+1, "");
+            int indexCloseTag = sb.indexOf(tagEnd);
+            if(indexCloseTag >=0){
+                int indexCloseTagEnd = sb.indexOf(">",indexCloseTag);
+                sb.replace(indexCloseTag, indexCloseTagEnd+1, "");
+            }
+        }  
+        return sb.toString();
+    }
 }
+
